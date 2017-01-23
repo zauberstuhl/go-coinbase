@@ -28,3 +28,6 @@ The library was tested against coinbase.com APIv2
  * Accounts
  * Addresses
  * Transactions
+* Data Endpoints
+ * Currencies
+ * Exchange rates
