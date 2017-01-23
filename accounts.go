@@ -46,7 +46,7 @@ type APIAccountBalance struct {
   Amount float64 `json:",string"`
   Currency string
 }
-type APIAccount struct {
+type APIAccountData struct {
   Id string
   Name string
   Primary bool
@@ -58,6 +58,9 @@ type APIAccount struct {
   Updated_at string
   Resource string
   Resource_path string
+}
+type APIAccount struct {
+  Data APIAccountData
 }
 // List accounts
 func (a *APIClient) Account(id string) (account APIAccount, err error) {
