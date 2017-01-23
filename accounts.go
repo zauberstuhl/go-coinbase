@@ -42,18 +42,14 @@ import "bytes"
  *   "resource_path": "/v2/accounts/2bbf394c-193b-5b2a-9155-3b4732659ede"
  * }
  */
-type APIAccountBalance struct {
-  Amount float64 `json:",string"`
-  Currency string
-}
 type APIAccountData struct {
   Id string
   Name string
   Primary bool
   Type string
   Currency string
-  Balance APIAccountBalance
-  Native_balance APIAccountBalance
+  Balance APIBalance
+  Native_balance APIBalance
   Created_at string
   Updated_at string
   Resource string
@@ -104,17 +100,9 @@ func (a *APIClient) Account(id string) (account APIAccount, err error) {
  *     },
  * [...]
  */
-type APIAccountsPagination struct {
-  Ending_before string
-  Starting_after string
-  Limit int
-  Order string
-  Previous_uri string
-  Next_uri string
-}
 type APIAccountsData []APIAccount
 type APIAccounts struct {
-  Pagination APIAccountsPagination
+  Pagination APIPagination
   Data APIAccountsData
 }
 // Show an account
