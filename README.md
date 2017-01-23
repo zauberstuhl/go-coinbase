@@ -24,7 +24,7 @@ The library was tested against coinbase.com APIv2
 ## Supported API Calls
 
 * Wallet Endpoints
-* * Users
-* * Accounts
-* * Addresses
-* * Transactions
+ * Users
+ * Accounts
+ * Addresses
+ * Transactions
