@@ -1,6 +1,6 @@
 # Coinbase Golang API Library
 
-This one is tested against APIv2.
+The library was tested against coinbase.com APIv2
 
 ## Example
 
@@ -21,3 +21,10 @@ This one is tested against APIv2.
         acc.Balance.Amount, acc.Balance.Currency)
     }
 
+## Supported API Calls
+
+* Wallet Endpoints
+* * Users
+* * Accounts
+* * Addresses
+* * Transactions
