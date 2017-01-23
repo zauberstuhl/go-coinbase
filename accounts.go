@@ -100,10 +100,9 @@ func (a *APIClient) Account(id string) (account APIAccount, err error) {
  *     },
  * [...]
  */
-type APIAccountsData []APIAccount
 type APIAccounts struct {
   Pagination APIPagination
-  Data APIAccountsData
+  Data []APIAccountData
 }
 // Show an account
 func (a *APIClient) Accounts() (accounts APIAccounts, err error) {
