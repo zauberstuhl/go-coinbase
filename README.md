@@ -31,3 +31,5 @@ The library was tested against coinbase.com APIv2
 * Data Endpoints
  * Currencies
  * Exchange rates
+ * Prices
+ * Time
