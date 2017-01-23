@@ -54,9 +54,13 @@ func (a *APIClient) Fetch(method, path string, body io.Reader, result interface{
   }
 
   req.Header.Set("Content-Type", "application/json")
-  err = a.Authenticate(path, req)
-  if err != nil {
-    return err
+  req.Header.Set("CB-VERSION", API_VERSION)
+  // do not authenticate on public time api call
+  if path[len(path)-4:] != "time" {
+    err = a.Authenticate(path, req)
+    if err != nil {
+      return err
+    }
   }
 
   resp, err := client.Do(req)
@@ -71,11 +75,11 @@ func (a *APIClient) Fetch(method, path string, body io.Reader, result interface{
 }
 
 func (a *APIClient) Authenticate(path string, req *http.Request) error {
-  err, epoch := a.GetTime()
+  time, err := a.GetCurrentTime()
   if err != nil {
     return err
   }
-  timestamp := strconv.FormatInt(epoch, 10)
+  timestamp := strconv.FormatInt(time.Data.Epoch, 10)
   message := timestamp + req.Method + path
 
   sha := sha256.New
@@ -87,21 +91,6 @@ func (a *APIClient) Authenticate(path string, req *http.Request) error {
   req.Header.Set("CB-ACCESS-KEY", a.Key)
   req.Header.Set("CB-ACCESS-SIGN", signature)
   req.Header.Set("CB-ACCESS-TIMESTAMP", timestamp)
-  req.Header.Set("CB-VERSION", API_VERSION)
 
   return nil
-}
-
-func (a *APIClient) GetTime() (error, int64) {
-  resp, err := http.Get(ENDPOINT + API_TIME)
-  if err != nil {
-    return err, 0
-  }
-
-  var epoch APIClientEpoch
-  err = json.NewDecoder(resp.Body).Decode(&epoch)
-  if err != nil {
-    return err, 0
-  }
-  return nil, epoch.Data.Epoch
 }
