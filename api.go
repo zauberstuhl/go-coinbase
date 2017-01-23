@@ -19,6 +19,8 @@
 
 package coinbase
 
+import "bytes"
+
 /*
  * {
  *   "id": "2bbf394c-193b-5b2a-9155-3b4732659ede",
@@ -44,7 +46,6 @@ type APIAccountBalance struct {
   Amount float64 `json:",string"`
   Currency string
 }
-
 type APIAccount struct {
   Id string
   Name string
@@ -58,7 +59,7 @@ type APIAccount struct {
   Resource string
   Resource_path string
 }
-
+// List accounts
 func (a *APIClient) Account(id string) (account APIAccount, err error) {
   err = a.Fetch("GET", "/v2/accounts/" + id, nil, &account)
   if err != nil {
@@ -108,16 +109,55 @@ type APIAccountsPagination struct {
   Previous_uri string
   Next_uri string
 }
-
 type APIAccountsData []APIAccount
-
 type APIAccounts struct {
   Pagination APIAccountsPagination
   Data APIAccountsData
 }
-
+// Show an account
 func (a *APIClient) Accounts() (accounts APIAccounts, err error) {
   err = a.Fetch("GET", "/v2/accounts", nil, &accounts)
+  if err != nil {
+    return
+  }
+  return
+}
+
+// Create account
+func (a *APIClient) CreateAccount(name string) (account APIAccount, err error) {
+  var body = []byte("{\"name\": \"" + name + "\"}")
+  err = a.Fetch("POST", "/v2/accounts", bytes.NewBuffer(body), &account)
+  if err != nil {
+    return
+  }
+  return
+}
+
+// Set account as primary
+func (a *APIClient) SetPrimaryAccount(id string) (account APIAccount, err error) {
+  path := "/v2/accounts/" + id + "/primary"
+  err = a.Fetch("POST", path, nil, &account)
+  if err != nil {
+    return
+  }
+  return
+}
+
+// Update account
+func (a *APIClient) UpdateAccount(id, name string) (account APIAccount, err error) {
+  path := "/v2/accounts/" + id
+  var body = []byte("{\"name\": \"" + name + "\"}")
+  err = a.Fetch("PUT", path, bytes.NewBuffer(body), &account)
+  if err != nil {
+    return
+  }
+  return
+}
+
+// Delete account
+func (a *APIClient) DeleteAccount(id string) (account APIAccount, err error) {
+  path := "/v2/accounts/" + id
+  err = a.Fetch("DELETE", path, nil, &account)
   if err != nil {
     return
   }
