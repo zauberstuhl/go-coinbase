@@ -24,8 +24,9 @@ type APIBalanceData struct {
   Data APIBalance
 }
 // Get buy price
-func (a *APIClient) GetBuyPrice(from, to string) (balance APIBalanceData, err error) {
-  err = a.Fetch("GET", "/v2/prices/" + from + "-" + to + "/buy", nil, &balance)
+func (a *APIClient) GetBuyPrice(c ConfigPrice) (balance APIBalanceData, err error) {
+  err = a.Fetch("GET", "/v2/prices/" + c.From +
+    "-" + c.To + "/buy", nil, &balance)
   if err != nil {
     return
   }
@@ -33,8 +34,9 @@ func (a *APIClient) GetBuyPrice(from, to string) (balance APIBalanceData, err er
 }
 
 // Get sell price
-func (a *APIClient) GetSellPrice(from, to string) (balance APIBalanceData, err error) {
-  err = a.Fetch("GET", "/v2/prices/" + from + "-" + to + "/sell", nil, &balance)
+func (a *APIClient) GetSellPrice(c ConfigPrice) (balance APIBalanceData, err error) {
+  err = a.Fetch("GET", "/v2/prices/" + c.From +
+    "-" + c.To + "/sell", nil, &balance)
   if err != nil {
     return
   }
@@ -42,8 +44,13 @@ func (a *APIClient) GetSellPrice(from, to string) (balance APIBalanceData, err e
 }
 
 // Get spot price
-func (a *APIClient) GetSpotPrice(from, to string) (balance APIBalanceData, err error) {
-  err = a.Fetch("GET", "/v2/prices/" + from + "-" + to + "/spot", nil, &balance)
+func (a *APIClient) GetSpotPrice(c ConfigPrice) (balance APIBalanceData, err error) {
+  var date string = ""
+  if c.Date.Year() != 1 {
+    date = "?date=" + c.Date.Format("2006-01-02")
+  }
+  err = a.Fetch("GET", "/v2/prices/" + c.From +
+    "-" + c.To + "/spot" + date, nil, &balance)
   if err != nil {
     return
   }

@@ -19,6 +19,10 @@
 
 package coinbase
 
+import "time"
+
+////////// API Structs //////////
+
 /*
  *   "pagination": {
  *     "ending_before": null,
@@ -49,3 +53,10 @@ type APIBalance struct {
   Currency string
 }
 
+///// Configuration Structs /////
+
+type ConfigPrice struct{
+  From string
+  To string
+  Date time.Time
+}
