@@ -19,7 +19,10 @@
 
 package coinbase
 
-import "time"
+import (
+  "fmt"
+  "time"
+)
 
 ////////// API Structs //////////
 
@@ -61,7 +64,24 @@ type APIBalance struct {
   Currency string
 }
 
-///// Configuration Structs /////
+/*
+
+Example Response:
+
+ "to": {
+   "id": "a6b4c2df-a62c-5d68-822a-dd4e2102e703",
+   "resource": "user",
+   "resource_path": "/v2/users/a6b4c2df-a62c-5d68-822a-dd4e2102e703"
+ },
+
+*/
+type APIResource struct {
+  Id string
+  Resource string
+  Resource_path string
+}
+
+//// Configuration Structs //
 
 type ConfigPrice struct{
   From string

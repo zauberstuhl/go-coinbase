@@ -66,11 +66,6 @@ type APITransactionsDataDetails struct {
   Title string
   Subtitle string
 }
-type APITransactionsDataToBuy struct {
-  Id string
-  Resource string
-  Resource_path string
-}
 type APITransactionsDataNetwork struct {
   Status string
   Name string
@@ -87,8 +82,8 @@ type APITransactionsData  struct {
   Resource string
   Resource_path string
   Network APITransactionsDataNetwork
-  To APITransactionsDataToBuy
-  Buy APITransactionsDataToBuy
+  To APIResource
+  Buy APIResource
   Instant_exchange bool
   Details APITransactionsDataDetails
 }
