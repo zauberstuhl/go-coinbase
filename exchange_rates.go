@@ -20,26 +20,30 @@
 package coinbase
 
 /*
- * {
- *   "data": {
- *     "currency": "BTC",
- *     "rates": {
- *       "AED": "36.73",
- *       "AFN": "589.50",
- *       "ALL": "1258.82",
- *       "AMD": "4769.49",
- *       "ANG": "17.88",
- *       "AOA": "1102.76",
- *       "ARS": "90.37",
- *       "AUD": "12.93",
- *       "AWG": "17.93",
- *       "AZN": "10.48",
- *       "BAM": "17.38",
- *       ...
- *     }
- *   }
- * }
- */
+
+Example Response:
+
+ {
+   "data": {
+     "currency": "BTC",
+     "rates": {
+       "AED": "36.73",
+       "AFN": "589.50",
+       "ALL": "1258.82",
+       "AMD": "4769.49",
+       "ANG": "17.88",
+       "AOA": "1102.76",
+       "ARS": "90.37",
+       "AUD": "12.93",
+       "AWG": "17.93",
+       "AZN": "10.48",
+       "BAM": "17.38",
+       ...
+     }
+   }
+ }
+
+*/
 type APIExchangeRatesData struct {
   Currency string
   Rates interface{}
@@ -47,7 +51,7 @@ type APIExchangeRatesData struct {
 type APIExchangeRates struct {
   Data []APIExchangeRatesData
 }
-// Get exchange rates
+// GetExchangeRates requires the currency as parameter and returns an APIExchangeRates struct
 func (a *APIClient) GetExchangeRates(currency string) (rates APIExchangeRates, err error) {
   err = a.Fetch("GET", "/v2/exchange-rates?currency=" + currency, nil, &rates)
   if err != nil {

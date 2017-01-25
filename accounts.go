@@ -22,26 +22,30 @@ package coinbase
 import "bytes"
 
 /*
- * {
- *   "id": "2bbf394c-193b-5b2a-9155-3b4732659ede",
- *   "name": "My Wallet",
- *   "primary": true,
- *   "type": "wallet",
- *   "currency": "BTC",
- *   "balance": {
- *       "amount": "39.59000000",
- *       "currency": "BTC"
- *   },
- *   "native_balance": {
- *       "amount": "395.90",
- *       "currency": "USD"
- *   },
- *   "created_at": "2015-01-31T20:49:02Z",
- *   "updated_at": "2015-01-31T20:49:02Z",
- *   "resource": "account",
- *   "resource_path": "/v2/accounts/2bbf394c-193b-5b2a-9155-3b4732659ede"
- * }
- */
+
+Example Response:
+
+ {
+   "id": "2bbf394c-193b-5b2a-9155-3b4732659ede",
+   "name": "My Wallet",
+   "primary": true,
+   "type": "wallet",
+   "currency": "BTC",
+   "balance": {
+       "amount": "39.59000000",
+       "currency": "BTC"
+   },
+   "native_balance": {
+       "amount": "395.90",
+       "currency": "USD"
+   },
+   "created_at": "2015-01-31T20:49:02Z",
+   "updated_at": "2015-01-31T20:49:02Z",
+   "resource": "account",
+   "resource_path": "/v2/accounts/2bbf394c-193b-5b2a-9155-3b4732659ede"
+ }
+
+*/
 type APIAccountData struct {
   Id string
   Name string
@@ -58,7 +62,7 @@ type APIAccountData struct {
 type APIAccount struct {
   Data APIAccountData
 }
-// List accounts
+// Account requires a account ID and returns and APIAccount struct
 func (a *APIClient) Account(id string) (account APIAccount, err error) {
   err = a.Fetch("GET", "/v2/accounts/" + id, nil, &account)
   if err != nil {
@@ -68,43 +72,47 @@ func (a *APIClient) Account(id string) (account APIAccount, err error) {
 }
 
 /*
- * {
- *   "pagination": {
- *     "ending_before": null,
- *     "starting_after": null,
- *     "limit": 25,
- *     "order": "desc",
- *     "previous_uri": null,
- *     "next_uri": null
- *   },
- *   "data": [
- *     {
- *       "id": "58542935-67b5-56e1-a3f9-42686e07fa40",
- *       "name": "My Vault",
- *       "primary": false,
- *       "type": "vault",
- *       "currency": "BTC",
- *       "balance": {
- *         "amount": "4.00000000",
- *         "currency": "BTC"
- *       },
- *       "native_balance": {
- *         "amount": "40.00",
- *         "currency": "USD"
- *       },
- *       "created_at": "2015-01-31T20:49:02Z",
- *       "updated_at": "2015-01-31T20:49:02Z",
- *       "resource": "account",
- *       "resource_path": "/v2/accounts/58542935-67b5-56e1-a3f9-42686e07fa40",
- *       "ready": true
- *     },
- * [...]
- */
+
+Example Response:
+
+ {
+   "pagination": {
+     "ending_before": null,
+     "starting_after": null,
+     "limit": 25,
+     "order": "desc",
+     "previous_uri": null,
+     "next_uri": null
+   },
+   "data": [
+     {
+       "id": "58542935-67b5-56e1-a3f9-42686e07fa40",
+       "name": "My Vault",
+       "primary": false,
+       "type": "vault",
+       "currency": "BTC",
+       "balance": {
+         "amount": "4.00000000",
+         "currency": "BTC"
+       },
+       "native_balance": {
+         "amount": "40.00",
+         "currency": "USD"
+       },
+       "created_at": "2015-01-31T20:49:02Z",
+       "updated_at": "2015-01-31T20:49:02Z",
+       "resource": "account",
+       "resource_path": "/v2/accounts/58542935-67b5-56e1-a3f9-42686e07fa40",
+       "ready": true
+     },
+ [...]
+
+*/
 type APIAccounts struct {
   Pagination APIPagination
   Data []APIAccountData
 }
-// Show an account
+// Accounts returns all known accounts as APIAccounts struct
 func (a *APIClient) Accounts() (accounts APIAccounts, err error) {
   err = a.Fetch("GET", "/v2/accounts", nil, &accounts)
   if err != nil {
@@ -113,7 +121,7 @@ func (a *APIClient) Accounts() (accounts APIAccounts, err error) {
   return
 }
 
-// Create account
+// CreateAccount requires an account name as parameter and returns an APIAccount struct
 func (a *APIClient) CreateAccount(name string) (account APIAccount, err error) {
   var body = []byte("{\"name\": \"" + name + "\"}")
   err = a.Fetch("POST", "/v2/accounts", bytes.NewBuffer(body), &account)
@@ -123,7 +131,7 @@ func (a *APIClient) CreateAccount(name string) (account APIAccount, err error) {
   return
 }
 
-// Set account as primary
+// SetPrimaryAccount requires an account ID and returns an APIAccount struct
 func (a *APIClient) SetPrimaryAccount(id string) (account APIAccount, err error) {
   path := "/v2/accounts/" + id + "/primary"
   err = a.Fetch("POST", path, nil, &account)
@@ -133,7 +141,8 @@ func (a *APIClient) SetPrimaryAccount(id string) (account APIAccount, err error)
   return
 }
 
-// Update account
+// UpdateAccount requires an account ID, Name
+// as parameter and returns an APIAccount struct
 func (a *APIClient) UpdateAccount(id, name string) (account APIAccount, err error) {
   path := "/v2/accounts/" + id
   var body = []byte("{\"name\": \"" + name + "\"}")
@@ -144,7 +153,7 @@ func (a *APIClient) UpdateAccount(id, name string) (account APIAccount, err erro
   return
 }
 
-// Delete account
+// DeleteAccount requires an account ID and returns an APIAccount struct
 func (a *APIClient) DeleteAccount(id string) (account APIAccount, err error) {
   path := "/v2/accounts/" + id
   err = a.Fetch("DELETE", path, nil, &account)

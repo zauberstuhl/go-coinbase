@@ -22,39 +22,43 @@ package coinbase
 import "bytes"
 
 /*
- * {
- *   "id": "9da7a204-544e-5fd1-9a12-61176c5d4cd8",
- *   "name": "User One",
- *   "username": "user1",
- *   "profile_location": null,
- *   "profile_bio": null,
- *   "profile_url": "https://coinbase.com/user1",
- *   "avatar_url": "https://images.coinbase.com/avatar?h=vR%2FY8igBoPwuwGren5JMwvDNGpURAY%2F0nRIOgH%2FY2Qh%2BQ6nomR3qusA%2Bh6o2%0Af9rH&s=128",
- *   "resource": "user",
- *   "resource_path": "/v2/user"
- * }
- *
- * wallet:user:read permission
- *
- * {
- *   ...
- *   "time_zone": "Pacific Time (US & Canada)",
- *   "native_currency": "USD",
- *   "bitcoin_unit": "bits",
- *   "country": {
- *     "code": "US",
- *     "name": "United States"
- *   },
- *   "created_at": "2015-01-31T20:49:02Z"
- * }
- *
- * wallet:user:email permission
- *
- * {
- *   ...
- *   "email": "user1@example.com"
- * }
- */
+
+Example Response:
+
+ {
+   "id": "9da7a204-544e-5fd1-9a12-61176c5d4cd8",
+   "name": "User One",
+   "username": "user1",
+   "profile_location": null,
+   "profile_bio": null,
+   "profile_url": "https://coinbase.com/user1",
+   "avatar_url": "https://images.coinbase.com/avatar?h=vR%2FY8igBoPwuwGren5JMwvDNGpURAY%2F0nRIOgH%2FY2Qh%2BQ6nomR3qusA%2Bh6o2%0Af9rH&s=128",
+   "resource": "user",
+   "resource_path": "/v2/user"
+ }
+
+wallet:user:read permission
+
+ {
+   ...
+   "time_zone": "Pacific Time (US & Canada)",
+   "native_currency": "USD",
+   "bitcoin_unit": "bits",
+   "country": {
+     "code": "US",
+     "name": "United States"
+   },
+   "created_at": "2015-01-31T20:49:02Z"
+ }
+
+wallet:user:email permission
+
+ {
+   ...
+   "email": "user1@example.com"
+ }
+
+*/
 type APIUserCountry struct {
   Code string
   Name string
@@ -81,7 +85,7 @@ type APIUserData struct {
 type APIUser struct {
   Data APIUserData
 }
-// Show a user
+// GetUser requires a user ID and returns an APIUser struct
 func (a *APIClient) GetUser(id string) (user APIUser, err error) {
   err = a.Fetch("GET", "/v2/users/" + id, nil, &user)
   if err != nil {
@@ -90,7 +94,7 @@ func (a *APIClient) GetUser(id string) (user APIUser, err error) {
   return
 }
 
-// Show current user
+// GetCurrentUser returns an APIUser struct
 func (a *APIClient) GetCurrentUser() (user APIUser, err error) {
   err = a.Fetch("GET", "/v2/user", nil, &user)
   if err != nil {
@@ -100,17 +104,21 @@ func (a *APIClient) GetCurrentUser() (user APIUser, err error) {
 }
 
 /*
- * {
- *   "data": {
- *     "method": "oauth",
- *     "scopes": [
- *         "wallet:user:read",
- *         "wallet:user:email"
- *     ],
- *     "oauth_meta": {}
- *   }
- * }
- */
+
+Example Response:
+
+ {
+   "data": {
+     "method": "oauth",
+     "scopes": [
+         "wallet:user:read",
+         "wallet:user:email"
+     ],
+     "oauth_meta": {}
+   }
+ }
+
+*/
 type APIUserAuthData struct {
   Method string
   Scopes []string
@@ -119,7 +127,7 @@ type APIUserAuthData struct {
 type APIUserAuth struct {
   Data APIUserAuthData
 }
-// Show authorization information
+// GetCurrentUserAuth returns an APIUserAuth struct
 func (a *APIClient) GetCurrentUserAuth() (auth APIUserAuth, err error) {
   err = a.Fetch("GET", "/v2/user/auth", nil, &auth)
   if err != nil {
@@ -128,7 +136,7 @@ func (a *APIClient) GetCurrentUserAuth() (auth APIUserAuth, err error) {
   return
 }
 
-// Update current user
+// UpdateCurrentUser requires a new username and returns an APIUser struct
 func (a *APIClient) UpdateCurrentUser(name string) (user APIUser, err error) {
   var body = []byte("{\"name\": \"" + name + "\"}")
   err = a.Fetch("PUT", "/v2/user", bytes.NewBuffer(body), &user)

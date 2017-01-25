@@ -22,17 +22,21 @@ package coinbase
 import "bytes"
 
 /*
- * {
- *   "id": "dd3183eb-af1d-5f5d-a90d-cbff946435ff",
- *   "address": "mswUGcPHp1YnkLCgF1TtoryqSc5E9Q8xFa",
- *   "name": "One off payment",
- *   "created_at": "2015-01-31T20:49:02Z",
- *   "updated_at": "2015-03-31T17:25:29-07:00",
- *   "network": "bitcoin",
- *   "resource": "address",
- *   "resource_path": "/v2/accounts/2bbf394c-193b-5b2a-9155-3b4732659ede/addresses/dd3183eb-af1d-5f5d-a90d-cbff946435ff"
- * }
- */
+
+Example Response:
+
+ {
+   "id": "dd3183eb-af1d-5f5d-a90d-cbff946435ff",
+   "address": "mswUGcPHp1YnkLCgF1TtoryqSc5E9Q8xFa",
+   "name": "One off payment",
+   "created_at": "2015-01-31T20:49:02Z",
+   "updated_at": "2015-03-31T17:25:29-07:00",
+   "network": "bitcoin",
+   "resource": "address",
+   "resource_path": "/v2/accounts/2bbf394c-193b-5b2a-9155-3b4732659ede/addresses/dd3183eb-af1d-5f5d-a90d-cbff946435ff"
+ }
+
+*/
 type APIAddressData struct {
   Id string
   Address string
@@ -50,7 +54,7 @@ type APIAddresses struct {
 type APIAddress struct {
   Data APIAddressData
 }
-// List addresses
+// GetAddresses requires an address ID and returns an APIAddresses struct
 func (a *APIClient) GetAddresses(id string) (addresses APIAddresses, err error) {
   err = a.Fetch("GET", "/v2/accounts/" + id + "/addresses", nil, &addresses)
   if err != nil {
@@ -59,7 +63,7 @@ func (a *APIClient) GetAddresses(id string) (addresses APIAddresses, err error) 
   return
 }
 
-// Show address
+// GetAddress requires an account ID and address ID. It will return an APIAddress struct
 func (a *APIClient) GetAddress(id, addressId string) (address APIAddress, err error) {
   err = a.Fetch("GET", "/v2/accounts/" + id + "/addresses/" + addressId, nil, &address)
   if err != nil {
@@ -68,7 +72,7 @@ func (a *APIClient) GetAddress(id, addressId string) (address APIAddress, err er
   return
 }
 
-// List address’s transactions
+// ListAddressTransactions requires an account ID and address ID. It will return an APITransactions struct
 func (a *APIClient) ListAddressTransactions(id, address string) (trans APITransactions, err error) {
   path := "/v2/accounts/" + id + "/addresses/" + address + "/transactions"
   err = a.Fetch("GET", path, nil, &trans)
@@ -78,7 +82,9 @@ func (a *APIClient) ListAddressTransactions(id, address string) (trans APITransa
   return
 }
 
-// Create address
+// CreateAddress requires an account ID
+// and the address Name as parameter.
+// It will return an APIAddress struct
 func (a *APIClient) CreateAddress(id, name string) (address APIAddress, err error) {
   var body = []byte("{\"name\": \"" + name + "\"}")
   err = a.Fetch("POST", "/v2/accounts/" + id + "/addresses",

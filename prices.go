@@ -23,7 +23,8 @@ package coinbase
 type APIBalanceData struct {
   Data APIBalance
 }
-// Get buy price
+// GetBuyPrice requires a ConfigPrice struct as parameter
+// and returns an APIBalanceData struct
 func (a *APIClient) GetBuyPrice(c ConfigPrice) (balance APIBalanceData, err error) {
   err = a.Fetch("GET", "/v2/prices/" + c.From +
     "-" + c.To + "/buy", nil, &balance)
@@ -33,7 +34,8 @@ func (a *APIClient) GetBuyPrice(c ConfigPrice) (balance APIBalanceData, err erro
   return
 }
 
-// Get sell price
+// GetSellPrice requires a ConfigPrice struct as parameter
+// and returns an APIBalanceData struct
 func (a *APIClient) GetSellPrice(c ConfigPrice) (balance APIBalanceData, err error) {
   err = a.Fetch("GET", "/v2/prices/" + c.From +
     "-" + c.To + "/sell", nil, &balance)
@@ -43,7 +45,9 @@ func (a *APIClient) GetSellPrice(c ConfigPrice) (balance APIBalanceData, err err
   return
 }
 
-// Get spot price
+// GetSpotPrice requires a ConfigPrice struct as parameter
+// and returns an APIBalanceData struct. If you define a date
+// you will recieve the spot price for the given date.
 func (a *APIClient) GetSpotPrice(c ConfigPrice) (balance APIBalanceData, err error) {
   var date string = ""
   if c.Date.Year() != 1 {

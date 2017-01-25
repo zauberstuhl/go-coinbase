@@ -20,32 +20,36 @@
 package coinbase
 
 /*
- * {
- *   "data": [
- *     {
- *       "id": "AED",
- *       "name": "United Arab Emirates Dirham",
- *       "min_size": "0.01000000"
- *     },
- *     {
- *       "id": "AFN",
- *       "name": "Afghan Afghani",
- *       "min_size": "0.01000000"
- *     },
- *     {
- *       "id": "ALL",
- *       "name": "Albanian Lek",
- *       "min_size": "0.01000000"
- *     },
- *     {
- *       "id": "AMD",
- *       "name": "Armenian Dram",
- *       "min_size": "0.01000000"
- *     },
- *     ...
- *   }
- * }
- */
+
+Example Response:
+
+ {
+   "data": [
+     {
+       "id": "AED",
+       "name": "United Arab Emirates Dirham",
+       "min_size": "0.01000000"
+     },
+     {
+       "id": "AFN",
+       "name": "Afghan Afghani",
+       "min_size": "0.01000000"
+     },
+     {
+       "id": "ALL",
+       "name": "Albanian Lek",
+       "min_size": "0.01000000"
+     },
+     {
+       "id": "AMD",
+       "name": "Armenian Dram",
+       "min_size": "0.01000000"
+     },
+     ...
+   }
+ }
+
+*/
 type APICurrenciesData struct {
   Id string
   Name string
@@ -54,7 +58,7 @@ type APICurrenciesData struct {
 type APICurrencies struct {
   Data []APICurrenciesData
 }
-// Get currencies
+// GetCurrencies will return an APICurrencies struct
 func (a *APIClient) GetCurrencies() (curr APICurrencies, err error) {
   err = a.Fetch("GET", "/v2/currencies", nil, &curr)
   if err != nil {

@@ -24,15 +24,19 @@ import "time"
 ////////// API Structs //////////
 
 /*
- *   "pagination": {
- *     "ending_before": null,
- *     "starting_after": null,
- *     "limit": 25,
- *     "order": "desc",
- *     "previous_uri": null,
- *     "next_uri": null
- *   },
- */
+
+Example Response:
+
+ "pagination": {
+   "ending_before": null,
+   "starting_after": null,
+   "limit": 25,
+   "order": "desc",
+   "previous_uri": null,
+   "next_uri": null
+ },
+
+*/
 type APIPagination struct {
   Ending_before string
   Starting_after string
@@ -43,11 +47,15 @@ type APIPagination struct {
 }
 
 /*
- *   "balance": {
- *       "amount": "39.59000000",
- *       "currency": "BTC"
- *   },
- */
+
+Example Response:
+
+ "balance": {
+     "amount": "39.59000000",
+     "currency": "BTC"
+ },
+
+*/
 type APIBalance struct {
   Amount float64 `json:",string"`
   Currency string

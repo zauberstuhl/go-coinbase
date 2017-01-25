@@ -20,13 +20,17 @@
 package coinbase
 
 /*
- * {
- *   "data": {
- *     "iso": "2015-06-23T18:02:51Z",
- *     "epoch": 1435082571
- *   }
- * }
- */
+
+Example Response:
+
+ {
+   "data": {
+     "iso": "2015-06-23T18:02:51Z",
+     "epoch": 1435082571
+   }
+ }
+
+*/
 type APITimeData struct {
   Iso string
   Epoch int64
@@ -34,7 +38,7 @@ type APITimeData struct {
 type APITime struct {
   Data APITimeData
 }
-// Get current time
+// GetCurrentTime returns an APITime struct
 func (a *APIClient) GetCurrentTime() (time APITime, err error) {
   err = a.Fetch("GET", "/v2/time", nil, &time)
   if err != nil {
