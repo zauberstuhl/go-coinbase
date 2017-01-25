@@ -92,6 +92,7 @@ type APIBuysSells struct {
   Data APIBuysSellsData
 }
 type BuyId string
+type SellId string
 // ListBuys requires an account ID and returns an APIBuysSellsList struct
 func (a *APIClient) ListBuys(id AccountId) (buys APIBuysSellsList, err error) {
   path := pathHelper("/v2/accounts/%s/buys", id)
@@ -150,6 +151,50 @@ func (a *APIClient) PlaceBuyOrder(id AccountId, order APIBuysBuySellOrder) (buys
 func (a *APIClient) CommitBuy(id AccountId, bid BuyId) (buys APIBuysSells, err error) {
   path := pathHelper("/v2/accounts/%s/buys/%s/commit", id, bid)
   err = a.Fetch("POST", path, nil, &buys)
+  if err != nil {
+    return
+  }
+  return
+}
+
+// ListSells requires an account ID and returns an APIBuysSellsList struct
+func (a *APIClient) ListSells(id AccountId) (sells APIBuysSellsList, err error) {
+  path := pathHelper("/v2/accounts/%s/sells", id)
+  err = a.Fetch("GET", path, nil, &sells)
+  if err != nil {
+    return
+  }
+  return
+}
+
+// ShowSell requires an account ID, buy ID and returns an APIBuysSells struct
+func (a *APIClient) ShowSell(id AccountId, sid SellId) (sells APIBuysSells, err error) {
+  path := pathHelper("/v2/accounts/%s/sells/%s", id, sid)
+  err = a.Fetch("GET", path, nil, &sells)
+  if err != nil {
+    return
+  }
+  return
+}
+
+// PlaceSellOrder requires an account ID, APIBuysBuySellOrder and returns an APIBuysSells struct
+func (a *APIClient) PlaceSellOrder(id AccountId, order APIBuysBuySellOrder) (sells APIBuysSells, err error) {
+  data, err := json.Marshal(order)
+  if err != nil {
+    return sells, err
+  }
+  path := pathHelper("/v2/accounts/%s/sells", id)
+  err = a.Fetch("POST", path, bytes.NewBuffer([]byte(data)), &sells)
+  if err != nil {
+    return
+  }
+  return
+}
+
+// CommitSell requires an account ID, sell ID and returns an APIBuysSells struct
+func (a *APIClient) CommitSell(id AccountId, sid SellId) (sells APIBuysSells, err error) {
+  path := pathHelper("/v2/accounts/%s/buys/%s/commit", id, sid)
+  err = a.Fetch("POST", path, nil, &sells)
   if err != nil {
     return
   }
