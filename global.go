@@ -24,7 +24,13 @@ import (
   "time"
 )
 
-////////// API Structs //////////
+// AccountId is a unique ID for your wallet
+//
+// Example:
+//  2bbf394c-193b-5b2a-9155-3b4732659ede
+type AccountId string
+
+//// API Structs /////////////////
 
 /*
 
@@ -87,4 +93,12 @@ type ConfigPrice struct{
   From string
   To string
   Date time.Time
+}
+
+//// Helper Functions ///////
+
+// pathHelper is a simple wrapper for Sprintf
+// and exists only to reduce import expressions
+func pathHelper(f string, p... interface{}) string {
+  return fmt.Sprintf(f, p...)
 }

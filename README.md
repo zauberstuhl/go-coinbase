@@ -12,6 +12,7 @@ The library was tested against coinbase.com APIv2
  * Accounts
  * Addresses
  * Transactions
+ * Buys
 * Data Endpoints
  * Currencies
  * Exchange rates
