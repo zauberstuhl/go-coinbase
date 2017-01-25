@@ -29,7 +29,7 @@ import (
   "io"
 )
 
-const (
+var (
   ENDPOINT = "https://api.coinbase.com"
   API_VERSION = "2016-03-08"
   API_TIME = "/v2/time"
