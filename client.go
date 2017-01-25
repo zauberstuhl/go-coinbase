@@ -17,7 +17,35 @@
  *
  */
 
-// Package coinbase provides a simple user interface for API calls to coinbase.com
+/*
+
+Package coinbase provides a simple user interface for API calls to coinbase.com.
+
+Example:
+
+ c := coinbase.APIClient{
+   Key: "123",
+   Secret: "123456",
+ }
+ acc, err := c.Accounts()
+ if err != nil {
+   fmt.Println(err)
+   return
+ }
+ for i, acc := range accounts.Data {
+   fmt.Printf("ID: %s\nName: %s\nType: %s\nAmount: %f\nCurrency: %s\n",
+     acc.Id, acc.Name, acc.Type,
+     acc.Balance.Amount, acc.Balance.Currency)
+ }
+ # sample output
+ ID: 1234-12-1234-1232
+ Name: Test Wallet
+ Type: BTC
+ Amount: 0.0
+ Currency: EUR
+ [...]
+
+*/
 package coinbase
 
 import (
@@ -31,10 +59,11 @@ import (
 )
 
 var (
-  // ENDPOINT defaults to https://api.coinbase.com but is not a const
+  // ENDPOINT defaults to https://api.coinbase.com
+  // but can be overridden for test purposes
   ENDPOINT = "https://api.coinbase.com"
-  // API_VERSION since version two you have
-  // to specify a API version in your http request headers
+  // API_VERSION since version two you have to
+  // specify a API version in your http request headers
   API_VERSION = "2016-03-08"
   API_TIME = "/v2/time"
 )
@@ -45,7 +74,7 @@ type APIClient struct {
   Secret string
 }
 
-// APIClientEpoch is used for decoding json `/v2/time` responses
+// APIClientEpoch is used for decoding json "/v2/time" responses
 type APIClientEpoch struct {
   Data struct {
     Epoch int64
