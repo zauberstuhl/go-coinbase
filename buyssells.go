@@ -67,7 +67,7 @@ Example Response:
  }
 
 */
-type APIBuysData struct {
+type APIBuysSellsData struct {
   Id string
   Status string
   Payment_method APIResource
@@ -84,16 +84,16 @@ type APIBuysData struct {
   Fee APIBalance
   Payout_at string
 }
-type APIBuysList struct {
+type APIBuysSellsList struct {
   Pagination APIPagination
-  Data []APIBuysData
+  Data []APIBuysSellsData
 }
-type APIBuys struct {
-  Data APIBuysData
+type APIBuysSells struct {
+  Data APIBuysSellsData
 }
 type BuyId string
-// ListBuys requires an account ID and returns an APIBuysList struct
-func (a *APIClient) ListBuys(id AccountId) (buys APIBuysList, err error) {
+// ListBuys requires an account ID and returns an APIBuysSellsList struct
+func (a *APIClient) ListBuys(id AccountId) (buys APIBuysSellsList, err error) {
   path := pathHelper("/v2/accounts/%s/buys", id)
   err = a.Fetch("GET", path, nil, &buys)
   if err != nil {
@@ -102,8 +102,8 @@ func (a *APIClient) ListBuys(id AccountId) (buys APIBuysList, err error) {
   return
 }
 
-// ShowBuy requires an account ID, buy ID and returns an APIBuys struct
-func (a *APIClient) ShowBuy(id AccountId, bid BuyId) (buys APIBuys, err error) {
+// ShowBuy requires an account ID, buy ID and returns an APIBuysSells struct
+func (a *APIClient) ShowBuy(id AccountId, bid BuyId) (buys APIBuysSells, err error) {
   path := pathHelper("/v2/accounts/%s/buys/%s", id, bid)
   err = a.Fetch("GET", path, nil, &buys)
   if err != nil {
@@ -123,7 +123,7 @@ Example request:
  }
 
 */
-type APIBuysBuyOrder struct {
+type APIBuysBuySellOrder struct {
   Amount float64
   Total float64
   Currency string
@@ -132,8 +132,8 @@ type APIBuysBuyOrder struct {
   Commit bool
   Quote bool
 }
-// PlaceBuyOrder requires an account ID, APIBuysBuyOrder and returns an APIBuys struct
-func (a *APIClient) PlaceBuyOrder(id AccountId, order APIBuysBuyOrder) (buys APIBuys, err error) {
+// PlaceBuyOrder requires an account ID, APIBuysBuySellOrder and returns an APIBuysSells struct
+func (a *APIClient) PlaceBuyOrder(id AccountId, order APIBuysBuySellOrder) (buys APIBuysSells, err error) {
   data, err := json.Marshal(order)
   if err != nil {
     return buys, err
@@ -146,8 +146,8 @@ func (a *APIClient) PlaceBuyOrder(id AccountId, order APIBuysBuyOrder) (buys API
   return
 }
 
-// CommitBuy requires an account ID, buy ID and returns an APIBuys struct
-func (a *APIClient) CommitBuy(id AccountId, bid BuyId) (buys APIBuys, err error) {
+// CommitBuy requires an account ID, buy ID and returns an APIBuysSells struct
+func (a *APIClient) CommitBuy(id AccountId, bid BuyId) (buys APIBuysSells, err error) {
   path := pathHelper("/v2/accounts/%s/buys/%s/commit", id, bid)
   err = a.Fetch("POST", path, nil, &buys)
   if err != nil {
