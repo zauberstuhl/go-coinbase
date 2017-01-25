@@ -17,6 +17,7 @@
  *
  */
 
+// Package coinbase provides a simple user interface for API calls to coinbase.com
 package coinbase
 
 import (
@@ -30,22 +31,30 @@ import (
 )
 
 var (
+  // ENDPOINT defaults to https://api.coinbase.com but is not a const
   ENDPOINT = "https://api.coinbase.com"
+  // API_VERSION since version two you have
+  // to specify a API version in your http request headers
   API_VERSION = "2016-03-08"
   API_TIME = "/v2/time"
 )
 
+// APIClient is the interface for most of the API calls
 type APIClient struct {
   Key string
   Secret string
 }
 
+// APIClientEpoch is used for decoding json `/v2/time` responses
 type APIClientEpoch struct {
   Data struct {
     Epoch int64
   }
 }
 
+// Fetch works as a wrapper for all kind of http requests. It requires a http method
+// and a relative path to the API endpoint. It will try to decode all results into
+// a single interface type which you can provide.
 func (a *APIClient) Fetch(method, path string, body io.Reader, result interface{}) error {
   client := &http.Client{}
   req, err := http.NewRequest(method, ENDPOINT + path, body)
@@ -74,6 +83,10 @@ func (a *APIClient) Fetch(method, path string, body io.Reader, result interface{
   return nil
 }
 
+// Authenticate works with the Fetch call and adds certain Headers
+// to the http request. This includes the actual API key and the
+// timestamp of the request. Also a signature which is encoded
+// with hmac and the API secret key.
 func (a *APIClient) Authenticate(path string, req *http.Request) error {
   time, err := a.GetCurrentTime()
   if err != nil {

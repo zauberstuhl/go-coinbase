@@ -1,6 +1,7 @@
 # Coinbase Golang API Library
 
-[![Build Status](https://travis-ci.org/Zauberstuhl/go-coinbase.svg?branch=master)](https://travis-ci.org/Zauberstuhl/go-coinbase)
+[![Build Status](https://travis-ci.org/Zauberstuhl/go-coinbase.svg?branch=master)](https://travis-ci.org/Zauberstuhl/go-coinbase) 
+[![GoDoc](https://godoc.org/github.com/Zauberstuhl/go-coinbase?status.svg)](http://godoc.org/github.com/Zauberstuhl/go-coinbase)
 
 The library was tested against coinbase.com APIv2
 
