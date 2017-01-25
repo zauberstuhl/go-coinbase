@@ -18,7 +18,16 @@ The library was tested against coinbase.com APIv2
  * Prices
  * Time
 
+## Installation
+
+    go get github.com/Zauberstuhl/go-coinbase
+
+    # or use gopkg for specific versions
+    go get gopkg.in/Zauberstuhl/go-coinbase.v1.0.0
+
 ## Example
+
+    import "github.com/Zauberstuhl/go-coinbase"
 
     c := coinbase.APIClient{
       Key: "123",
