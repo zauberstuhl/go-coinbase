@@ -7,7 +7,7 @@ import (
   "crypto/sha256"
   "crypto/hmac"
   "fmt"
-  "github.com/Zauberstuhl/go-coinbase"
+  ".."
 )
 
 func TestClientFetch(t *testing.T) {
