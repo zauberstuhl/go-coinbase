@@ -6,4 +6,4 @@ go:
 
 install: true
 
-script: go test ./test/
+script: go test -v ./test/
