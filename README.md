@@ -1,25 +1,8 @@
 # Coinbase Golang API Library
 
+[![Build Status](https://travis-ci.org/Zauberstuhl/go-coinbase.svg?branch=master)](https://travis-ci.org/Zauberstuhl/go-coinbase)
+
 The library was tested against coinbase.com APIv2
-
-## Example
-
-    c := coinbase.APIClient{
-      Key: os.Getenv("COINBASE_KEY"),
-      Secret: os.Getenv("COINBASE_SECRET"),
-    }
-    accounts, err := c.Accounts()
-    if err != nil {
-      fmt.Println(err)
-      return
-    }
-
-    for i := range accounts.Data {
-      acc := accounts.Data[i]
-      fmt.Printf("%s %s %s %f %s\n",
-        acc.Id, acc.Name, acc.Type,
-        acc.Balance.Amount, acc.Balance.Currency)
-    }
 
 ## Supported API Calls
 
@@ -33,3 +16,30 @@ The library was tested against coinbase.com APIv2
  * Exchange rates
  * Prices
  * Time
+
+## Example
+
+    c := coinbase.APIClient{
+      Key: "123",
+      Secret: "123456",
+    }
+
+    acc, err := c.Accounts()
+    if err != nil {
+      fmt.Println(err)
+      return
+    }
+
+    for i, acc := range accounts.Data {
+      fmt.Printf("ID: %s\nName: %s\nType: %s\nAmount: %f\nCurrency: %s\n",
+        acc.Id, acc.Name, acc.Type,
+        acc.Balance.Amount, acc.Balance.Currency)
+    }
+
+    # sample output
+    ID: 1234-12-1234-1232
+    Name: Test Wallet
+    Type: BTC
+    Amount: 0.0
+    Currency: EUR
+    [...]
