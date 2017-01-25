@@ -4,6 +4,6 @@ go:
 - 1.7.x
 - master
 
-install: true
+install: go get github.com/Zauberstuhl/go-coinbase
 
 script: go test -v ./test/
