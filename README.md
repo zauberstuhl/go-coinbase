@@ -5,30 +5,36 @@
 
 The library was tested against coinbase.com APIv2
 
-## Supported API Calls
-
-* Wallet Endpoints
- * Users
- * Accounts
- * Addresses
- * Transactions
- * Buys
- * Sells
- * Deposits
- * Withdrawals
- * Payment methods
-* Data Endpoints
- * Currencies
- * Exchange rates
- * Prices
- * Time
-
 ## Installation
 
     go get github.com/Zauberstuhl/go-coinbase
 
     # or use gopkg for specific versions
     go get gopkg.in/Zauberstuhl/go-coinbase.v1.0.0
+
+## Supported API Calls
+
+* Wallet Endpoints
+ - [x] Users
+ - [x] Accounts
+ - [x] Addresses
+ - [x] Transactions
+ - [x] Buys
+ - [x] Sells
+ - [x] Deposits
+ - [x] Withdrawals
+ - [x] Payment methods
+* Merchant Endpoints
+ - [ ] Merchants
+ - [ ] Orders
+ - [ ] Checkouts
+* Data Endpoints
+ - [x] Currencies\*
+ - [x] Exchange rates\*
+ - [x] Prices\*
+ - [x] Time\*
+
+\* with unit-test coverage
 
 ## Example
 
