@@ -14,6 +14,7 @@ The library was tested against coinbase.com APIv2
  * Transactions
  * Buys
  * Sells
+ * Deposits
 * Data Endpoints
  * Currencies
  * Exchange rates
