@@ -19,6 +19,8 @@
 
 package coinbase
 
+import "encoding/json"
+
 /*
 
 Example Response:
@@ -46,10 +48,13 @@ Example Response:
 */
 type APIExchangeRatesData struct {
   Currency string
-  Rates interface{}
+  // using map[string]float64 `json:",string"`
+  // will result into ain unmarshalling error.
+  // Using json.Number gets rid of strconv!
+  Rates map[string]json.Number
 }
 type APIExchangeRates struct {
-  Data []APIExchangeRatesData
+  Data APIExchangeRatesData
 }
 // GetExchangeRates requires the currency as parameter and returns an APIExchangeRates struct
 func (a *APIClient) GetExchangeRates(currency string) (rates APIExchangeRates, err error) {
