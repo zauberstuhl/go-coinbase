@@ -17,19 +17,16 @@ func TestClientFetch(t *testing.T) {
   }))
   defer ts.Close()
 
-  coinbase.ENDPOINT = ts.URL
   a := coinbase.APIClient{
     Key: "123",
     Secret: "123456",
+    Endpoint: ts.URL,
   }
 
   var result coinbase.APIClientEpoch
   err := a.Fetch("GET", "/v2/time", nil, &result)
   if err != nil {
     t.Error("Expected nil, got ", err.Error())
-  }
-  if coinbase.ENDPOINT == "https://api.coinbase.com" {
-    t.Error("Expected ", ts.URL, " , got ", coinbase.ENDPOINT)
   }
   if result.Data.Epoch != 1485347945 {
     t.Error("Expected valid unix timestamp, got ", result.Data.Epoch)
@@ -48,10 +45,10 @@ func TestClientAuthenticate(t *testing.T) {
     t.Error("Expected nil, got ", err.Error())
   }
 
-  coinbase.ENDPOINT = ts.URL
   a := coinbase.APIClient{
     Key: "123",
     Secret: "123456",
+    Endpoint: ts.URL,
   }
   err = a.Authenticate("/", req)
   if err != nil {

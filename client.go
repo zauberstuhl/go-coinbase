@@ -58,20 +58,23 @@ import (
   "io"
 )
 
-var (
+const (
   // ENDPOINT defaults to https://api.coinbase.com
   // but can be overridden for test purposes
   ENDPOINT = "https://api.coinbase.com"
   // API_VERSION since version two you have to
   // specify a API version in your http request headers
   API_VERSION = "2016-03-08"
-  API_TIME = "/v2/time"
 )
 
 // APIClient is the interface for most of the API calls
+// If Endpoint or ApiVersion aren't defined the library
+// will use the default https://api.coinbase.com
 type APIClient struct {
   Key string
   Secret string
+  Endpoint string
+  ApiVersion string
 }
 
 // APIClientEpoch is used for decoding json "/v2/time" responses
@@ -85,14 +88,23 @@ type APIClientEpoch struct {
 // and a relative path to the API endpoint. It will try to decode all results into
 // a single interface type which you can provide.
 func (a *APIClient) Fetch(method, path string, body io.Reader, result interface{}) error {
+  if a.Endpoint == "" {
+    // use default endpoint
+    a.Endpoint = ENDPOINT
+  }
+  if a.ApiVersion == "" {
+    // use default api version
+    a.ApiVersion = API_VERSION
+  }
+
   client := &http.Client{}
-  req, err := http.NewRequest(method, ENDPOINT + path, body)
+  req, err := http.NewRequest(method, a.Endpoint + path, body)
   if err != nil {
     return err
   }
 
   req.Header.Set("Content-Type", "application/json")
-  req.Header.Set("CB-VERSION", API_VERSION)
+  req.Header.Set("CB-VERSION", a.ApiVersion)
   // do not authenticate on public time api call
   if path[len(path)-4:] != "time" {
     err = a.Authenticate(path, req)
