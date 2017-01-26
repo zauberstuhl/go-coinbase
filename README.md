@@ -64,3 +64,11 @@ The library was tested against coinbase.com APIv2
     Amount: 0.0
     Currency: EUR
     [...]
+
+## Unit Tests
+
+Run all available unit tests via:
+
+    make test
+
+Most of the tests require a internet connection!
