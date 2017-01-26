@@ -52,8 +52,8 @@ func (a *APIClient) ShowDeposit(id AccountId, did DepositId) (deposits APIWallet
   return
 }
 
-// PlaceDepositOrder requires an account ID, APIWalletTransferOrder and returns an APIWalletTransfer struct
-func (a *APIClient) PlaceDepositOrder(id AccountId, order APIWalletTransferOrder) (deposits APIWalletTransfer, err error) {
+// DepositFunds requires an account ID, APIWalletTransferOrder and returns an APIWalletTransfer struct
+func (a *APIClient) DepositFunds(id AccountId, order APIWalletTransferOrder) (deposits APIWalletTransfer, err error) {
   data, err := json.Marshal(order)
   if err != nil {
     return deposits, err
