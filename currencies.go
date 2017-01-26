@@ -53,7 +53,7 @@ Example Response:
 type APICurrenciesData struct {
   Id string
   Name string
-  Min_size float64
+  Min_size float64 `json:",string"`
 }
 type APICurrencies struct {
   Data []APICurrenciesData
