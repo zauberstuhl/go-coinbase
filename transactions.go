@@ -116,7 +116,7 @@ func (a *APIClient) GetTransaction(id, transId string) (trans APITransaction, er
 type APITransactionsSend struct {
   Type string
   To string
-  Amount float64
+  Amount float64 `json:",string"`
   Currency string
 }
 // SendTransferRequestMoney requires an account ID, APITransactionsSend struct

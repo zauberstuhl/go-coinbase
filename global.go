@@ -167,8 +167,8 @@ Example request:
 
 */
 type APIWalletTransferOrder struct {
-  Amount float64
-  Total float64
+  Amount float64 `json:",string"`
+  Total float64 `json:",string"`
   Currency string
   Payment_method string
   Agree_btc_amount_varies bool
