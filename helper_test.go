@@ -1,4 +1,4 @@
-package coinbase_test
+package coinbase
 
 import (
   "net/http"

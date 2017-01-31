@@ -1,12 +1,11 @@
-package coinbase_test
+package coinbase
 
 import (
   "testing"
-  "zauberstuhl/coinbase"
 )
 
 func TestGetExchangeRates(t *testing.T) {
-  a := coinbase.APIClient{
+  a := APIClient{
     Key: "123",
     Secret: "123456",
   }

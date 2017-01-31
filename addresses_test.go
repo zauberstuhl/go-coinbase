@@ -1,8 +1,7 @@
-package coinbase_test
+package coinbase
 
 import (
   "testing"
-  "zauberstuhl/coinbase"
 )
 
 func TestAddresses(t *testing.T) {
@@ -22,7 +21,7 @@ func TestAddresses(t *testing.T) {
   `)
   defer s.Close()
 
-  a := coinbase.APIClient{
+  a := APIClient{
     Key: "123",
     Secret: "123456",
     Endpoint: s.URL,

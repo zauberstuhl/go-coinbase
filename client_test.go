@@ -1,4 +1,4 @@
-package coinbase_test
+package coinbase
 
 import (
   "testing"
@@ -7,7 +7,6 @@ import (
   "crypto/sha256"
   "crypto/hmac"
   "fmt"
-  "zauberstuhl/coinbase"
 )
 
 func TestClientFetch(t *testing.T) {
@@ -17,13 +16,13 @@ func TestClientFetch(t *testing.T) {
   }))
   defer ts.Close()
 
-  a := coinbase.APIClient{
+  a := APIClient{
     Key: "123",
     Secret: "123456",
     Endpoint: ts.URL,
   }
 
-  var result coinbase.APIClientEpoch
+  var result APIClientEpoch
   err := a.Fetch("GET", "/v2/time", nil, &result)
   if err != nil {
     t.Error("Expected nil, got ", err.Error())
@@ -45,7 +44,7 @@ func TestClientAuthenticate(t *testing.T) {
     t.Error("Expected nil, got ", err.Error())
   }
 
-  a := coinbase.APIClient{
+  a := APIClient{
     Key: "123",
     Secret: "123456",
     Endpoint: ts.URL,

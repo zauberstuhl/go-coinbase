@@ -1,8 +1,7 @@
-package coinbase_test
+package coinbase
 
 import (
   "testing"
-  "zauberstuhl/coinbase"
 )
 
 func TestBuys(t *testing.T) {
@@ -49,7 +48,7 @@ func TestBuys(t *testing.T) {
   `)
   defer s.Close()
 
-  a := coinbase.APIClient{
+  a := APIClient{
     Key: "123",
     Secret: "123456",
     Endpoint: s.URL,
@@ -66,8 +65,8 @@ func TestBuys(t *testing.T) {
 
   wrapper := func(data interface{}) {
     switch r := data.(type) {
-    case coinbase.APIResource:
-    case coinbase.APIBalance:
+    case APIResource:
+    case APIBalance:
     default:
       t.Error("Expected APIBalance or APIResource, got ", r)
     }
