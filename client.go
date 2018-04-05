@@ -49,7 +49,6 @@ Example:
 package coinbase
 
 import (
-  "log"
   "bytes"
   "fmt"
   "encoding/json"
