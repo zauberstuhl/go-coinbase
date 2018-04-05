@@ -19,8 +19,6 @@
 
 package coinbase
 
-import "bytes"
-
 /*
 
 Example Response:
@@ -86,9 +84,9 @@ func (a *APIClient) ListAddressTransactions(id, address string) (trans APITransa
 // and the address Name as parameter.
 // It will return an APIAddress struct
 func (a *APIClient) CreateAddress(id, name string) (address APIAddress, err error) {
-  var body = []byte("{\"name\": \"" + name + "\"}")
-  err = a.Fetch("POST", "/v2/accounts/" + id + "/addresses",
-    bytes.NewBuffer(body), &address)
+  var body APIAccountRequest
+  body.Name = name
+  err = a.Fetch("POST", "/v2/accounts/" + id + "/addresses", body, &address)
   if err != nil {
     return
   }

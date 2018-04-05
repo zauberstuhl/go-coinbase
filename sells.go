@@ -19,10 +19,6 @@
 
 package coinbase
 
-import (
-  "bytes"
-  "encoding/json"
-)
 
 /*
 
@@ -54,12 +50,9 @@ func (a *APIClient) ShowSell(id AccountId, sid SellId) (sells APIWalletTransfer,
 
 // PlaceSellOrder requires an account ID, APIWalletTransferOrder and returns an APIWalletTransfer struct
 func (a *APIClient) PlaceSellOrder(id AccountId, order APIWalletTransferOrder) (sells APIWalletTransfer, err error) {
-  data, err := json.Marshal(order)
-  if err != nil {
-    return sells, err
-  }
+
   path := pathHelper("/v2/accounts/%s/sells", id)
-  err = a.Fetch("POST", path, bytes.NewBuffer([]byte(data)), &sells)
+  err = a.Fetch("POST", path, order, &sells)
   if err != nil {
     return
   }

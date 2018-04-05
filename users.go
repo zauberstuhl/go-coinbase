@@ -19,7 +19,6 @@
 
 package coinbase
 
-import "bytes"
 
 /*
 
@@ -138,8 +137,9 @@ func (a *APIClient) GetCurrentUserAuth() (auth APIUserAuth, err error) {
 
 // UpdateCurrentUser requires a new username and returns an APIUser struct
 func (a *APIClient) UpdateCurrentUser(name string) (user APIUser, err error) {
-  var body = []byte("{\"name\": \"" + name + "\"}")
-  err = a.Fetch("PUT", "/v2/user", bytes.NewBuffer(body), &user)
+  var body APIAccountRequest
+  body.Name = name
+  err = a.Fetch("PUT", "/v2/user", body, &user)
   if err != nil {
     return
   }

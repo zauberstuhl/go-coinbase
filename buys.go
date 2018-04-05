@@ -18,12 +18,6 @@
  */
 
 package coinbase
-
-import (
-  "bytes"
-  "encoding/json"
-)
-
 /*
 
 Example:
@@ -54,12 +48,8 @@ func (a *APIClient) ShowBuy(id AccountId, bid BuyId) (buys APIWalletTransfer, er
 
 // PlaceBuyOrder requires an account ID, APIWalletTransferOrder and returns an APIWalletTransfer struct
 func (a *APIClient) PlaceBuyOrder(id AccountId, order APIWalletTransferOrder) (buys APIWalletTransfer, err error) {
-  data, err := json.Marshal(order)
-  if err != nil {
-    return buys, err
-  }
   path := pathHelper("/v2/accounts/%s/buys", id)
-  err = a.Fetch("POST", path, bytes.NewBuffer([]byte(data)), &buys)
+  err = a.Fetch("POST", path, order, &buys)
   if err != nil {
     return
   }

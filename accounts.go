@@ -19,8 +19,6 @@
 
 package coinbase
 
-import "bytes"
-
 /*
 
 Example Response:
@@ -61,6 +59,7 @@ type APIAccountData struct {
 }
 type APIAccount struct {
   Data APIAccountData
+  Errors []Error
 }
 // Account requires a account ID and returns and APIAccount struct
 func (a *APIClient) Account(id string) (account APIAccount, err error) {
@@ -112,6 +111,10 @@ type APIAccounts struct {
   Pagination APIPagination
   Data []APIAccountData
 }
+
+type APIAccountRequest struct {
+  Name string `json:"name"`
+}
 // Accounts returns all known accounts as APIAccounts struct
 func (a *APIClient) Accounts() (accounts APIAccounts, err error) {
   err = a.Fetch("GET", "/v2/accounts", nil, &accounts)
@@ -123,8 +126,9 @@ func (a *APIClient) Accounts() (accounts APIAccounts, err error) {
 
 // CreateAccount requires an account name as parameter and returns an APIAccount struct
 func (a *APIClient) CreateAccount(name string) (account APIAccount, err error) {
-  var body = []byte("{\"name\": \"" + name + "\"}")
-  err = a.Fetch("POST", "/v2/accounts", bytes.NewBuffer(body), &account)
+  var body APIAccountRequest
+  body.Name = name
+  err = a.Fetch("POST", "/v2/accounts", body, &account)
   if err != nil {
     return
   }
@@ -145,8 +149,9 @@ func (a *APIClient) SetPrimaryAccount(id string) (account APIAccount, err error)
 // as parameter and returns an APIAccount struct
 func (a *APIClient) UpdateAccount(id, name string) (account APIAccount, err error) {
   path := "/v2/accounts/" + id
-  var body = []byte("{\"name\": \"" + name + "\"}")
-  err = a.Fetch("PUT", path, bytes.NewBuffer(body), &account)
+  var body APIAccountRequest
+  body.Name = name
+  err = a.Fetch("PUT", path, body, &account)
   if err != nil {
     return
   }

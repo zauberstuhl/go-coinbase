@@ -19,11 +19,6 @@
 
 package coinbase
 
-import (
-  "bytes"
-  "encoding/json"
-)
-
 /*
 
 Example:
@@ -54,12 +49,8 @@ func (a *APIClient) ShowWithdrawal(id AccountId, wid WithdrawalId) (withdrawals 
 
 // WithdrawalFunds requires an account ID, APIWalletTransferOrder and returns an APIWalletTransfer struct
 func (a *APIClient) WithdrawalFunds(id AccountId, order APIWalletTransferOrder) (withdrawals APIWalletTransfer, err error) {
-  data, err := json.Marshal(order)
-  if err != nil {
-    return withdrawals, err
-  }
   path := pathHelper("/v2/accounts/%s/withdrawals", id)
-  err = a.Fetch("POST", path, bytes.NewBuffer([]byte(data)), &withdrawals)
+  err = a.Fetch("POST", path, order, &withdrawals)
   if err != nil {
     return
   }

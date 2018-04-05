@@ -140,6 +140,7 @@ type APIPaymentMethodsData struct {
 type APIPaymentMethods struct {
   Pagination APIPagination
   Data []APIPaymentMethodsData
+  Errors []Error
 }
 type APIPaymentMethod struct {
   Data APIPaymentMethodsData
