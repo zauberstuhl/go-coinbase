@@ -22,6 +22,7 @@ package coinbase
 // TODO wrong naming convention
 type APIBalanceData struct {
   Data APIBalance
+  Errors []Error
 }
 // GetBuyPrice requires a ConfigPrice struct as parameter
 // and returns an APIBalanceData struct
