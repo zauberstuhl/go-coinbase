@@ -24,10 +24,6 @@ The library was tested against coinbase.com APIv2
  - [x] Deposits
  - [x] Withdrawals
  - [x] Payment methods
-* Merchant Endpoints
- - [ ] Merchants
- - [ ] Orders
- - [ ] Checkouts
 * Data Endpoints
  - [x] Currencies\*
  - [x] Exchange rates\*
