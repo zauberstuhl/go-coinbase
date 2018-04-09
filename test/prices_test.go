@@ -61,7 +61,7 @@ func TestGetSpotPrice(t *testing.T) {
   if balance.Data.Currency != "EUR" {
     t.Error("Expected EUR, got ", balance.Data.Currency)
   }
-  if balance.Data.Amount < 800.0 {
+  if balance.Data.Amount < 500.0 {
     t.Error("Expected amount >= 800, got ", balance.Data.Amount)
   }
 }
