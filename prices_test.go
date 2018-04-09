@@ -1,15 +1,14 @@
-package coinbase_test
+package coinbase
 
 import (
   "testing"
-  "zauberstuhl/coinbase"
   "time"
 )
 
 func TestGetBuyPrice(t *testing.T) {
-  a := coinbase.APIClient{}
+  a := APIClient{}
   balance, err := a.GetBuyPrice(
-    coinbase.ConfigPrice{
+    ConfigPrice{
       From: "BTC",
       To: "EUR",
   })
@@ -25,9 +24,9 @@ func TestGetBuyPrice(t *testing.T) {
 }
 
 func TestGetSellPrice(t *testing.T) {
-  a := coinbase.APIClient{}
+  a := APIClient{}
   balance, err := a.GetSellPrice(
-    coinbase.ConfigPrice{
+    ConfigPrice{
       From: "BTC",
       To: "EUR",
   })
@@ -43,14 +42,14 @@ func TestGetSellPrice(t *testing.T) {
 }
 
 func TestGetSpotPrice(t *testing.T) {
-  a := coinbase.APIClient{}
+  a := APIClient{}
   date, err := time.Parse("2006-01-02", "2017-01-01")
   if err != nil {
     t.Error("Expected nil, got ", err.Error())
   }
 
   balance, err := a.GetSpotPrice(
-    coinbase.ConfigPrice{
+    ConfigPrice{
       From: "BTC",
       To: "EUR",
       Date: date,

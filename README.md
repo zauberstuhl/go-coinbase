@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Zauberstuhl/go-coinbase.svg?branch=master)](https://travis-ci.org/Zauberstuhl/go-coinbase) 
 [![GoDoc](https://godoc.org/github.com/Zauberstuhl/go-coinbase?status.svg)](http://godoc.org/github.com/Zauberstuhl/go-coinbase)
+[![Codecov](https://codecov.io/gh/Zauberstuhl/go-coinbase/branch/master/graph/badge.svg)](https://codecov.io/gh/Zauberstuhl/go-coinbase)
 
 The library was tested against coinbase.com APIv2
 
@@ -25,12 +26,10 @@ The library was tested against coinbase.com APIv2
  - [x] Withdrawals
  - [x] Payment methods
 * Data Endpoints
- - [x] Currencies\*
- - [x] Exchange rates\*
- - [x] Prices\*
- - [x] Time\*
-
-\* with unit-test coverage
+ - [x] Currencies
+ - [x] Exchange rates
+ - [x] Prices
+ - [x] Time
 
 ## Example
 
@@ -65,6 +64,6 @@ The library was tested against coinbase.com APIv2
 
 Run all available unit tests via:
 
-    make test
+    go test
 
 Most of the tests require a internet connection!
