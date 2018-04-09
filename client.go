@@ -49,6 +49,7 @@ Example:
 package coinbase
 
 import (
+  "bytes"
   "fmt"
   "encoding/json"
   "net/http"
@@ -87,7 +88,7 @@ type APIClientEpoch struct {
 // Fetch works as a wrapper for all kind of http requests. It requires a http method
 // and a relative path to the API endpoint. It will try to decode all results into
 // a single interface type which you can provide.
-func (a *APIClient) Fetch(method, path string, body io.Reader, result interface{}) error {
+func (a *APIClient) Fetch(method, path string, body interface{}, result interface{}) error {
   if a.Endpoint == "" {
     // use default endpoint
     a.Endpoint = ENDPOINT
@@ -98,7 +99,15 @@ func (a *APIClient) Fetch(method, path string, body io.Reader, result interface{
   }
 
   client := &http.Client{}
-  req, err := http.NewRequest(method, a.Endpoint + path, body)
+  var bodyBuffered io.Reader
+  if body != nil {
+    data, err := json.Marshal(body)
+    if err != nil {
+      return err
+    }
+    bodyBuffered = bytes.NewBuffer([]byte(data))
+  }
+  req, err := http.NewRequest(method, a.Endpoint + path, bodyBuffered)
   if err != nil {
     return err
   }
@@ -107,16 +116,16 @@ func (a *APIClient) Fetch(method, path string, body io.Reader, result interface{
   req.Header.Set("CB-VERSION", a.ApiVersion)
   // do not authenticate on public time api call
   if path[len(path)-4:] != "time" {
-    err = a.Authenticate(path, req)
+    err = a.Authenticate(path, req, body)
     if err != nil {
       return err
     }
   }
-
   resp, err := client.Do(req)
   if err != nil {
     return err
   }
+
   err = json.NewDecoder(resp.Body).Decode(result)
   if err != nil {
     return err
@@ -128,13 +137,17 @@ func (a *APIClient) Fetch(method, path string, body io.Reader, result interface{
 // to the http request. This includes the actual API key and the
 // timestamp of the request. Also a signature which is encoded
 // with hmac and the API secret key.
-func (a *APIClient) Authenticate(path string, req *http.Request) error {
+func (a *APIClient) Authenticate(path string, req *http.Request, body interface{}) error {
   time, err := a.GetCurrentTime()
   if err != nil {
     return err
   }
   timestamp := strconv.FormatInt(time.Data.Epoch, 10)
   message := timestamp + req.Method + path
+  if body != nil {
+    bodyBytes, _ := json.Marshal(body)
+    message += string(bodyBytes)
+  }
 
   sha := sha256.New
   h := hmac.New(sha, []byte(a.Secret))

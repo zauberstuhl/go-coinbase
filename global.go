@@ -32,6 +32,15 @@ type AccountId string
 
 //// API Structs /////////////////
 
+type Error struct {
+  Id string `json:"id"`
+  Message string `json:"message"`
+}
+
+type APIName struct {
+  Name string `json:"name"`
+}
+
 /*
 
 Example Response:
@@ -150,9 +159,11 @@ type APIWalletTransferData struct {
 type APIWalletTransferList struct {
   Pagination APIPagination
   Data []APIWalletTransferData
+  Errors []Error
 }
 type APIWalletTransfer struct {
   Data APIWalletTransferData
+  Errors []Error
 }
 
 /*
@@ -167,13 +178,13 @@ Example request:
 
 */
 type APIWalletTransferOrder struct {
-  Amount float64 `json:",string"`
-  Total float64 `json:",string"`
-  Currency string
-  Payment_method string
-  Agree_btc_amount_varies bool
-  Commit bool
-  Quote bool
+  Amount *float64 `json:"amount"`
+  Total *float64 `json:"total"`
+  Currency string `json:"currency"`
+  Payment_method string `json:"payment_method"`
+  Agree_btc_amount_varies bool `json:"agree_btc_amount_varies"`
+  Commit bool `json:"commit"`
+  Quote bool `json:"quote"`
 }
 
 //// Configuration Structs //

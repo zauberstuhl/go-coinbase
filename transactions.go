@@ -19,11 +19,6 @@
 
 package coinbase
 
-import (
-  "bytes"
-  "encoding/json"
-)
-
 /*
 
 Example Response:
@@ -90,9 +85,11 @@ type APITransactionsData  struct {
 type APITransactions struct {
   Pagination APIPagination
   Data []APITransactionsData
+  Errors []Error
 }
 type APITransaction struct {
   Data APITransactionsData
+  Errors []Error
 }
 // GetTransactions requires an account ID and returns an APITransactions struct
 func (a *APIClient) GetTransactions(id string) (trans APITransactions, err error) {
@@ -114,22 +111,20 @@ func (a *APIClient) GetTransaction(id, transId string) (trans APITransaction, er
 }
 
 type APITransactionsSend struct {
-  Type string
-  To string
-  Amount float64 `json:",string"`
-  Currency string
+  Type string `json:"type"`
+  To string `json:"to"`
+  Amount float64 `json:"amount"`
+  Currency string `json:"currency"`
+  Fee string `json:"fee"`
 }
+
+
 // SendTransferRequestMoney requires an account ID, APITransactionsSend struct
 // and returns am APITransaction struct
 // TODO move account ID into the APITransactionsSend struct
 func (a *APIClient) SendTransferRequestMoney(id string, send APITransactionsSend) (trans APITransaction, err error) {
-  data, err := json.Marshal(send)
-  if err != nil {
-    return
-  }
   // TODO implement idem
-  err = a.Fetch("POST", "/v2/accounts/" + id + "/transactions",
-    bytes.NewBuffer([]byte(data)), &trans)
+  err = a.Fetch("POST", "/v2/accounts/" + id + "/transactions", send, &trans)
   if err != nil {
     return
   }

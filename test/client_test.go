@@ -50,7 +50,7 @@ func TestClientAuthenticate(t *testing.T) {
     Secret: "123456",
     Endpoint: ts.URL,
   }
-  err = a.Authenticate("/", req)
+  err = a.Authenticate("/", req, nil)
   if err != nil {
     t.Error("Expected nil, got ", err.Error())
   }

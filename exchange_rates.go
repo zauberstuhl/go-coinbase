@@ -55,6 +55,7 @@ type APIExchangeRatesData struct {
 }
 type APIExchangeRates struct {
   Data APIExchangeRatesData
+  Errors []Error
 }
 // GetExchangeRates requires the currency as parameter and returns an APIExchangeRates struct
 func (a *APIClient) GetExchangeRates(currency string) (rates APIExchangeRates, err error) {

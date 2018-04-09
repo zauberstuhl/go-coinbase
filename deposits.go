@@ -19,10 +19,6 @@
 
 package coinbase
 
-import (
-  "bytes"
-  "encoding/json"
-)
 
 /*
 
@@ -54,12 +50,8 @@ func (a *APIClient) ShowDeposit(id AccountId, did DepositId) (deposits APIWallet
 
 // DepositFunds requires an account ID, APIWalletTransferOrder and returns an APIWalletTransfer struct
 func (a *APIClient) DepositFunds(id AccountId, order APIWalletTransferOrder) (deposits APIWalletTransfer, err error) {
-  data, err := json.Marshal(order)
-  if err != nil {
-    return deposits, err
-  }
   path := pathHelper("/v2/accounts/%s/deposits", id)
-  err = a.Fetch("POST", path, bytes.NewBuffer([]byte(data)), &deposits)
+  err = a.Fetch("POST", path, order, &deposits)
   if err != nil {
     return
   }
