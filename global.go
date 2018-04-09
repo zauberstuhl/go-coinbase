@@ -37,6 +37,10 @@ type Error struct {
   Message string `json:"message"`
 }
 
+type APIName struct {
+  Name string `json:"name"`
+}
+
 /*
 
 Example Response:
@@ -155,6 +159,7 @@ type APIWalletTransferData struct {
 type APIWalletTransferList struct {
   Pagination APIPagination
   Data []APIWalletTransferData
+  Errors []Error
 }
 type APIWalletTransfer struct {
   Data APIWalletTransferData

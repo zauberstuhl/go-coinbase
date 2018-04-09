@@ -57,6 +57,7 @@ type APICurrenciesData struct {
 }
 type APICurrencies struct {
   Data []APICurrenciesData
+  Errors []Error
 }
 // GetCurrencies will return an APICurrencies struct
 func (a *APIClient) GetCurrencies() (curr APICurrencies, err error) {

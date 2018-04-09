@@ -83,6 +83,7 @@ type APIUserData struct {
 }
 type APIUser struct {
   Data APIUserData
+  Errors []Error
 }
 // GetUser requires a user ID and returns an APIUser struct
 func (a *APIClient) GetUser(id string) (user APIUser, err error) {
@@ -137,7 +138,7 @@ func (a *APIClient) GetCurrentUserAuth() (auth APIUserAuth, err error) {
 
 // UpdateCurrentUser requires a new username and returns an APIUser struct
 func (a *APIClient) UpdateCurrentUser(name string) (user APIUser, err error) {
-  var body APIAccountRequest
+  var body APIName
   body.Name = name
   err = a.Fetch("PUT", "/v2/user", body, &user)
   if err != nil {

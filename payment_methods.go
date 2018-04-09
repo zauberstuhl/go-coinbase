@@ -144,6 +144,7 @@ type APIPaymentMethods struct {
 }
 type APIPaymentMethod struct {
   Data APIPaymentMethodsData
+  Errors []Error
 }
 
 // ListPaymentMethods returns an APIPaymentMethods struct
