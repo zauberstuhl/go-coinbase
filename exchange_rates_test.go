@@ -17,7 +17,7 @@ func TestGetExchangeRates(t *testing.T) {
     t.Error("Expected currency length equal three")
   }
   for key, value := range exch.Data.Rates {
-    if len(key) != 3 {
+    if len(key) < 3 {
       t.Error("Expected ", key, " length equal three")
     }
     rate, err := value.Float64()
