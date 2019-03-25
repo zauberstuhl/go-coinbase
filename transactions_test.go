@@ -86,7 +86,7 @@ func TestGetTransaction(t *testing.T) {
     }
 
     if !test.SellNil && transaction.Data.Sell == nil {
-      t.Error("#%d: Expected not nil, got nil", i)
+      t.Errorf("#%d: Expected not nil, got nil", i)
     }
 
     if test.SellNil && transaction.Data.Sell != nil {
@@ -94,7 +94,7 @@ func TestGetTransaction(t *testing.T) {
     }
 
     if !test.BuyNil && transaction.Data.Buy == nil {
-      t.Error("#%d: Expected not nil, got nil", i)
+      t.Errorf("#%d: Expected not nil, got nil", i)
     }
 
     if test.BuyNil && transaction.Data.Buy != nil {
