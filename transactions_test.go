@@ -38,40 +38,20 @@ var transactionTmpl = `{
   }
 }`
 
-var tests = []struct{
-  Func http.HandlerFunc
-  SellNil bool
-  BuyNil bool
-}{
-  {
-    Func: func(w http.ResponseWriter, r *http.Request) {
-      w.Header().Set("Content-Type", "application/json")
-      fmt.Fprintln(w, fmt.Sprintf(transactionTmpl, "buy", "buy", "buy", "buy"))
-    },
-    SellNil: true,
-    BuyNil: false,
-  },
-  {
-    Func: func(w http.ResponseWriter, r *http.Request) {
-      w.Header().Set("Content-Type", "application/json")
-      fmt.Fprintln(w, fmt.Sprintf(transactionTmpl, "sell", "sell", "sell", "sell"))
-    },
-    SellNil: false,
-    BuyNil: true,
-  },
-  {
-    Func: func(w http.ResponseWriter, r *http.Request) {
-      w.Header().Set("Content-Type", "application/json")
-      fmt.Fprintln(w, transactionTmpl)
-    },
-    SellNil: true,
-    BuyNil: true,
-  },
-}
-
 func TestGetTransaction(t *testing.T) {
-  for i, test := range tests {
-    ts := httptest.NewServer(test.Func)
+  var transactionTypes = []string{
+    "buy","sell","send","transfer","fiat_deposit",
+    "fiat_withdrawal","exchange_deposit",
+    "exchange_withdrawal","vault_withdrawal",
+  }
+
+  for i, transactionType := range transactionTypes {
+    ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+      w.Header().Set("Content-Type", "application/json")
+      fmt.Fprintln(w, fmt.Sprintf(
+        transactionTmpl, transactionType, transactionType,
+        transactionType, transactionType))
+    }))
     defer ts.Close()
 
     a := APIClient{
@@ -85,20 +65,45 @@ func TestGetTransaction(t *testing.T) {
       t.Errorf("#%d: Expected nil, got '%+v'", i, err.Error())
     }
 
-    if !test.SellNil && transaction.Data.Sell == nil {
-      t.Errorf("#%d: Expected not nil, got nil", i)
-    }
-
-    if test.SellNil && transaction.Data.Sell != nil {
-      t.Errorf("#%d: Expected nil, got '%+v'", i, *transaction.Data.Sell)
-    }
-
-    if !test.BuyNil && transaction.Data.Buy == nil {
-      t.Errorf("#%d: Expected not nil, got nil", i)
-    }
-
-    if test.BuyNil && transaction.Data.Buy != nil {
-      t.Errorf("#%d: Expected nil, got '%+v'", i, *transaction.Data.Buy)
+    switch transactionType {
+      case "buy":
+        if transaction.Data.Buy == nil {
+          t.Errorf("#%d: Expected not nil, got nil", i)
+        }
+      case "sell":
+        if transaction.Data.Sell == nil {
+          t.Errorf("#%d: Expected not nil, got nil", i)
+        }
+      case "send":
+        if transaction.Data.Send == nil {
+          t.Errorf("#%d: Expected not nil, got nil", i)
+        }
+      case "transfer":
+        if transaction.Data.Transfer == nil {
+          t.Errorf("#%d: Expected not nil, got nil", i)
+        }
+      case "fiat_deposit":
+        if transaction.Data.Fiat_deposit == nil {
+          t.Errorf("#%d: Expected not nil, got nil", i)
+        }
+      case "fiat_withdrawal":
+        if transaction.Data.Fiat_withdrawal == nil {
+          t.Errorf("#%d: Expected not nil, got nil", i)
+        }
+      case "exchange_deposit":
+        if transaction.Data.Exchange_deposit == nil {
+          t.Errorf("#%d: Expected not nil, got nil", i)
+        }
+      case "exchange_withdrawal":
+        if transaction.Data.Exchange_withdrawal == nil {
+          t.Errorf("#%d: Expected not nil, got nil", i)
+        }
+      case "vault_withdrawal":
+        if transaction.Data.Vault_withdrawal == nil {
+          t.Errorf("#%d: Expected not nil, got nil", i)
+        }
+      default:
+        t.Errorf("#%d: Unknown test type", i)
     }
   }
 }

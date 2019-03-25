@@ -80,6 +80,14 @@ type APITransactionsData  struct {
   To APIResource
   Buy *APIResource `json:"buy,omitempty"`
   Sell *APIResource `json:"sell,omitempty"`
+  Send *APIResource `json:"send,omitempty"`
+  Request *APIResource `json:"request,omitempty"`
+  Transfer *APIResource `json:"transfer,omitempty"`
+  Fiat_deposit *APIResource `json:"fiat_deposit,omitempty"`
+  Fiat_withdrawal *APIResource `json:"fiat_withdrawal,omitempty"`
+  Exchange_deposit *APIResource `json:"exchange_deposit,omitempty"`
+  Exchange_withdrawal *APIResource `json:"exchange_withdrawal,omitempty"`
+  Vault_withdrawal *APIResource `json:"vault_withdrawal,omitempty"`
   Instant_exchange bool
   Details APITransactionsDataDetails
 }
