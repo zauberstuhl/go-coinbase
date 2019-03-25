@@ -78,7 +78,8 @@ type APITransactionsData  struct {
   Resource_path string
   Network APITransactionsDataNetwork
   To APIResource
-  Buy APIResource
+  Buy *APIResource `json:"buy,omitempty"`
+  Sell *APIResource `json:"sell,omitempty"`
   Instant_exchange bool
   Details APITransactionsDataDetails
 }
