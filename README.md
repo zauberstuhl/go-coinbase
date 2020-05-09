@@ -46,7 +46,7 @@ The library was tested against coinbase.com APIv2
       return
     }
 
-    for i, acc := range accounts.Data {
+    for _, acc := range acc.Data {
       fmt.Printf("ID: %s\nName: %s\nType: %s\nAmount: %f\nCurrency: %s\n",
         acc.Id, acc.Name, acc.Type,
         acc.Balance.Amount, acc.Balance.Currency)
